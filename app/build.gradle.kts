@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("kotlin-kapt")
+    id ("dagger.hilt.android.plugin")
 }
 
 android {
@@ -55,6 +57,14 @@ dependencies {
 
     Libs.androidLibs.forEach { androidLibs ->
         implementation(androidLibs)
+    }
+
+    Libs.androidKaptLibs.forEach { androidKaptLibs ->
+        kapt(androidKaptLibs)
+    }
+
+    Libs.kotlinLibs.forEach { kotlinLibs ->
+        implementation(kotlinLibs)
     }
 
     Libs.testLibs.forEach { testLibs ->

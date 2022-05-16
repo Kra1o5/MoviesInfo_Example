@@ -4,6 +4,7 @@ plugins {
     id ("com.android.library") version ("7.2.0") apply false
     id ("org.jetbrains.kotlin.android") version (Versions.kotlin) apply false
     id ("org.jetbrains.kotlin.jvm") version (Versions.kotlin) apply false
+    id ("com.google.dagger.hilt.android") version (Versions.hilt) apply false
 }
 
 tasks.register("clean", Delete::class) {
