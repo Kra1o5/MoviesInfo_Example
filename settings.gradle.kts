@@ -12,8 +12,9 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "Movies Info"
-include ':app'
-include ':data'
-include ':domain'
-include ':usecases'
+include (":app")
+include (":data")
+include (":domain")
+include (":usecases")

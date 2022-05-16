@@ -1,6 +1,6 @@
 plugins {
-    id 'java-library'
-    id 'org.jetbrains.kotlin.jvm'
+    id ("java-library")
+    id ("org.jetbrains.kotlin.jvm")
 }
 
 java {
@@ -10,5 +10,5 @@ java {
 
 
 dependencies {
-    implementation project(":domain")
+    implementation(project(":domain"))
 }

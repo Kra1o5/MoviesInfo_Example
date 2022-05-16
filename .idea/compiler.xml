@@ -3,6 +3,9 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.8">
       <module name="Movies_Info.app" target="11" />
+      <module name="MoviesInfo_Example.buildSrc" target="11" />
+      <module name="MoviesInfo_Example.buildSrc.main" target="11" />
+      <module name="MoviesInfo_Example.buildSrc.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
