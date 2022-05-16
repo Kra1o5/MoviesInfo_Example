@@ -14,3 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Movies Info"
 include ':app'
+include ':data'
+include ':domain'
+include ':usecases'
