@@ -4,6 +4,7 @@ import com.randomdroids.moviesinfo.data.common.Response
 import com.randomdroids.moviesinfo.data.server.mapper.toDomain
 import com.randomdroids.moviesinfo.data.source.RemoteDataSource
 import com.randomdroids.moviesinfo.domain.Movie
+import com.randomdroids.moviesinfo.domain.MovieDetails
 import javax.inject.Inject
 
 class MoviesInfoServerDataSource @Inject constructor(
@@ -16,6 +17,19 @@ class MoviesInfoServerDataSource @Inject constructor(
             val response = moviesInfoServerService.getMoviesInfo()
             if (response.isSuccessful) {
                 Response(value = response.body()?.results?.map { it.toDomain() } ?: emptyList())
+            } else {
+                Response(error = Exception("Request was unsuccessful"))
+            }
+        } catch (exception: Exception) {
+            Response(error = exception.cause)
+        }
+    }
+
+    override suspend fun getMovieDetailsData(id: String): Response<MovieDetails> {
+        return try {
+            val response = moviesInfoServerService.getMoviesDetailsInfo(id)
+            if (response.isSuccessful) {
+                Response(value = response.body()?.toDomain())
             } else {
                 Response(error = Exception("Request was unsuccessful"))
             }

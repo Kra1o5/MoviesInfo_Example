@@ -1,10 +1,11 @@
-package com.randomdroids.moviesinfo.ui
+package com.randomdroids.moviesinfo.ui.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.randomdroids.moviesinfo.data.server.ServerConstants.IMG_URL
 import com.randomdroids.moviesinfo.domain.Movie
@@ -26,19 +28,25 @@ import com.randomdroids.moviesinfo.domain.Movie
 
 @Composable
 fun MovieCard(
+    modifier: Modifier = Modifier,
     elevation: Dp = 1.dp,
     border: BorderStroke? = null,
     background: Color = MaterialTheme.colors.surface,
     contentColor: Color = contentColorFor(background),
     shape: RoundedCornerShape = RoundedCornerShape(16.dp),
-    movieItem: Movie
+    movieItem: Movie,
+    navController: NavHostController
 ) {
     Card(
         backgroundColor = background,
         contentColor = contentColor,
         shape = shape,
         elevation = elevation,
-        border = border
+        border = border,
+        modifier = modifier
+            .clickable {
+                navController.navigate("details/${movieItem.id}")
+            },
     ) {
         // Container
         Column {
@@ -80,7 +88,7 @@ fun MovieCard(
 }
 
 @Composable
-fun MovieList(viewModel: MainViewModel) {
+fun MovieList(viewModel: MainViewModel, navController: NavHostController) {
     viewModel.requestMoviesList()
     val movieData = viewModel.movies.collectAsState().value
     val loadingState = viewModel.loading.collectAsState().value
@@ -115,6 +123,7 @@ fun MovieList(viewModel: MainViewModel) {
         items(movies) { item ->
             MovieCard(
                 movieItem = item,
+                navController = navController
             )
         }
     }

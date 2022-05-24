@@ -4,6 +4,8 @@ object Versions {
     const val activity = "1.4.0"
     const val coil = "2.1.0"
     const val lifeCycle = "2.4.1"
+    const val navigation = "2.4.2"
+    const val hiltNavigation = "1.0.0"
     const val hilt = "2.42"
     const val okhttp = "4.9.3"
     const val retrofit = "2.9.0"

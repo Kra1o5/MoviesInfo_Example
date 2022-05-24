@@ -6,6 +6,8 @@ object Libs {
         "androidx.compose.ui:ui-tooling-preview:${Versions.compose}",
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifeCycle}",
         "androidx.activity:activity-compose:${Versions.activity}",
+        "androidx.navigation:navigation-compose:${Versions.navigation}",
+        "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}",
         "com.google.dagger:hilt-android:${Versions.hilt}",
 
     )

@@ -8,4 +8,6 @@ object ServerConstants {
     const val POPULAR = "popular"
     const val LANGUAGE = "&language="
     const val REGION = "en-US"
+    const val APPEND = "&append_to_response="
+    const val CREDITS = "credits"
 }
