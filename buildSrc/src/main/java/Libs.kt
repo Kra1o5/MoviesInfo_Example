@@ -6,11 +6,19 @@ object Libs {
         "androidx.compose.ui:ui-tooling-preview:${Versions.compose}",
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifeCycle}",
         "androidx.activity:activity-compose:${Versions.activity}",
-        "com.google.dagger:hilt-android:${Versions.hilt}"
+        "com.google.dagger:hilt-android:${Versions.hilt}",
+
     )
 
     val androidKaptLibs = listOf(
         "com.google.dagger:hilt-compiler:${Versions.hilt}"
+    )
+
+    val libs = listOf(
+        "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}",
+        "com.squareup.retrofit2:retrofit:${Versions.retrofit}",
+        "com.squareup.retrofit2:converter-gson:${Versions.retrofit}",
+        "io.coil-kt:coil-compose:${Versions.coil}"
     )
 
     val kotlinLibs = listOf(

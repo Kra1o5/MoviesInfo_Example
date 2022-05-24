@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
+    id ("kotlin-parcelize")
     id ("dagger.hilt.android.plugin")
 }
 
@@ -61,6 +62,10 @@ dependencies {
 
     Libs.androidKaptLibs.forEach { androidKaptLibs ->
         kapt(androidKaptLibs)
+    }
+
+    Libs.libs.forEach { libs ->
+        implementation(libs)
     }
 
     Libs.kotlinLibs.forEach { kotlinLibs ->
