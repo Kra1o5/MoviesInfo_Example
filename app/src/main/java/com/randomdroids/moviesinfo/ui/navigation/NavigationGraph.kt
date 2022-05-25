@@ -19,7 +19,7 @@ fun NavigationGraph() {
         composable(Routes.Main.route) {
             val model = hiltViewModel<MainViewModel>()
             model.requestMoviesList()
-            MovieList(model, navController)
+            MovieList(viewModel = model, navController = navController)
         }
         composable(
             route = Routes.Details.route,

@@ -9,22 +9,56 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.randomdroids.moviesinfo.R
 import com.randomdroids.moviesinfo.data.server.ServerConstants.IMG_URL
 import com.randomdroids.moviesinfo.domain.Movie
 
+@Composable
+fun SearchInput(viewModel: MainViewModel) {
+    var text by remember { mutableStateOf("") }
+
+    OutlinedTextField(
+        value = text,
+        onValueChange = {
+            text = it
+            viewModel.requestMoviesList(it)
+        },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = MaterialTheme.colors.primary
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.surface, CircleShape),
+        leadingIcon = {
+            if (text.isEmpty()) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = null
+                )
+            }
+        },
+        shape = CircleShape,
+        maxLines = 1,
+        singleLine = true
+    )
+}
 
 @Composable
 fun MovieCard(
@@ -88,10 +122,13 @@ fun MovieCard(
 }
 
 @Composable
-fun MovieList(viewModel: MainViewModel, navController: NavHostController) {
-    viewModel.requestMoviesList()
+fun MovieList(
+    viewModel: MainViewModel,
+    navController: NavHostController,
+) {
     val movieData = viewModel.movies.collectAsState().value
     val loadingState = viewModel.loading.collectAsState().value
+
     val movies = List(movieData.size) { index ->
 
         Movie(
@@ -120,10 +157,25 @@ fun MovieList(viewModel: MainViewModel, navController: NavHostController) {
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
 
+        item { SearchInput(viewModel) }
         items(movies) { item ->
             MovieCard(
                 movieItem = item,
                 navController = navController
+            )
+        }
+    }
+
+    if (movieData.isEmpty()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.no_results),
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
             )
         }
     }

@@ -1,16 +1,18 @@
 package com.randomdroids.moviesinfo.ui.details
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -52,7 +54,21 @@ private fun MovieHeader(
 @Composable
 fun MovieScreen(viewModel: DetailsViewModel = viewModel()) {
     val movieData = viewModel.movies.collectAsState().value
+    val loadingState = viewModel.loading.collectAsState().value
     val scrollState = rememberScrollState()
+
+    AnimatedVisibility(
+        modifier = Modifier.fillMaxSize(),
+        visible = loadingState,
+        enter = EnterTransition.None,
+        exit = fadeOut()
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .background(Color.Transparent)
+                .wrapContentSize()
+        )
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         BoxWithConstraints {

@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,11 +33,11 @@ class MainViewModel @Inject constructor(
     val loading: MutableStateFlow<Boolean> get() = _loading
 
 
-    fun requestMoviesList() {
+    fun requestMoviesList(name: String? = "") {
         viewModelScope.launch {
             _loading.value = true
             when (val result = getMovieDataUseCase.invoke()) {
-                is ResultData.Success -> onSuccessGetMovies(result.value)
+                is ResultData.Success -> onSuccessGetMovies(result.value, name)
                 is ResultData.Failure -> onErrorGetMovies(result.throwable)
             }
             _loading.value = false
@@ -48,9 +49,17 @@ class MainViewModel @Inject constructor(
      *
      * @param movieDetails List of movies
      */
-    private fun onSuccessGetMovies(movieDetails: Response<List<Movie>>) {
+    private fun onSuccessGetMovies(movieDetails: Response<List<Movie>>, name: String?) {
         viewModelScope.launch(requestDispatcher) {
-            movieDetails.getValue()?.let { _movies.emit(it) }
+            if (name.isNullOrEmpty()) {
+                movieDetails.getValue()?.let { _movies.emit(it) }
+            } else {
+                val moviesResult = movieDetails.getValue()?.filter {
+                    it.title?.trim()?.lowercase(Locale.ROOT)
+                        ?.contains(name.trim().lowercase(Locale.ROOT)) ?: false
+                }?.toList()
+                moviesResult?.let { _movies.emit(it) }
+            }
         }
     }
 
